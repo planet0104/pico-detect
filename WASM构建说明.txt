@@ -1,0 +1,5 @@
+# 编译为 WASM（含 JS 绑定）
+# cargo build --release --target wasm32-unknown-unknown --features wasm
+
+# 使用 wasm-pack 打包（推荐用于发布）
+wasm-pack build --target web --features wasm

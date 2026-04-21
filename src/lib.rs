@@ -20,6 +20,9 @@ mod detect;
 mod localize;
 mod shape;
 
+#[cfg(feature = "wasm")]
+pub mod wasm;
+
 pub use geometry::{Square, Target};
 
 pub use detect::{

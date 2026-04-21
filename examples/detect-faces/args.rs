@@ -79,8 +79,8 @@ impl Args {
                     self.min_size,
                     self.max_size
                         .unwrap_or_else(|| image.height().min(image.width())),
-                    self.scale_factor,
                     self.shift_factor,
+                    self.scale_factor,
                 )?)
                 .clusterizer(Clusterizer {
                     intersection_threshold: self.intersection_threshold,

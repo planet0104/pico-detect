@@ -14,6 +14,10 @@ exclude = ["assets", "tests", "models", "examples", ".gitattributes"]
 [lib]
 name = "pico_detect"
 bench = false
+crate-type = ["cdylib", "rlib"]
+
+[features]
+wasm = ["dep:wasm-bindgen", "dep:js-sys"]
 
 [dependencies]
 nalgebra = { version = "0.34", default-features = false, features = ["std"] }
@@ -25,6 +29,11 @@ rand_xoshiro = "0.7"
 derive_builder = "0.12"
 pixelutil-image = { version = "0.4", features = ["nalgebra"] }
 thiserror = "2"
+wasm-bindgen = { version = "0.2", optional = true }
+js-sys = { version = "0.3", optional = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom = { version = "0.3", features = ["wasm_js"] }
 
 [dev-dependencies]
 image = "0.25"
@@ -55,3 +64,8 @@ path = "examples/detect-faces/main.rs"
 
 [profile.bench]
 lto = true
+
+[patch.crates-io]
+# Patch pixelutil-image to fix a conflicting impl bug on 32-bit (wasm32) targets.
+# See: patches/pixelutil-image/src/index.rs
+pixelutil-image = { path = "patches/pixelutil-image" }
